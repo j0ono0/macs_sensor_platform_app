@@ -7,9 +7,11 @@ MQTT_TIMEOUT = 20
 TELEMETRY_LOG_FILE = "telemetry.log"
 
 NTP_SERVERS = [
+    "0.oceania.pool.ntp.org",  # www
+    "1.oceania.pool.ntp.org",  # www
+    "2.oceania.pool.ntp.org",  # www
     "192.168.0.100",  # rpi4 on demo network
     "192.168.0.91",  # rpi4 on home network
-    "pool.ntp.org",  # www
 ]
 
 MQTT_TOPIC_TELEMETRY = "macs/telemetry"
@@ -23,7 +25,7 @@ known_networks = [
     {
         "ssid": "TelstraCD4F4B",
         "password": "nd8na68rcj",
-        "mqtt_addr": "192.168.0.91",
+        "mqtt_addr": "192.168.0.110",  # GlowDarkly on home network
     },
 ]
 TARGET_SSID = "TelstraCD4F4B"

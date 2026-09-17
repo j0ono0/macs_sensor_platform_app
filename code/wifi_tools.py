@@ -32,7 +32,7 @@ def connect():
                 wlan.active(False)
                 return None
 
-        print("network config:", wlan.ipconfig("addr4"))
+        print("Connected. Network config:", wlan.ipconfig("addr4"))
         return wlan
 
 

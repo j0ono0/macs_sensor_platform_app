@@ -42,12 +42,14 @@ def set_time():
     # TODO: cater for timeouts?
     for addr in cfg.NTP_SERVERS:
         try:
+            print(f"Setting NTP from: {addr}.")
             ntptime.host = addr
             ntptime.settime()
             rtc = machine.RTC()
             print("time set from network:", rtc.datetime())
             return True
         except OSError:
+            print(f"Failed to set time from address: {addr}")
             pass
     print("No NTP server found.")
     return False
@@ -111,19 +113,19 @@ def start_polling():
             # Send local data to remote
             wlan = wt.connect()
             if wlan:
-                led_red.on()
+                led_green.on()
                 if pub_mqtt_log(
                     cfg.TELEMETRY_LOG_FILE,
                     cfg.MQTT_TOPIC_TELEMETRY,
                     cfg.target_network["mqtt_addr"],
                 ):
                     open(cfg.TELEMETRY_LOG_FILE, "w").close()
-                    led_red.off()
+                    led_green.off()
                     # Network must be inactive for lightsleep to work correctly
                     wlan.active(False)
                 else:
                     print("error connecting")
-                    blink_led(led_red, 5, 500)
+                    blink_led(led_red, 3, 500)
 
             # Reset cache threshold. Accumulate more data locally
             log_count = 0
@@ -136,6 +138,7 @@ def start_polling():
 
 ##################################################################################
 
+
 blink_led(led_green, 2, 100)
 
 wlan = wt.connect()
@@ -145,7 +148,7 @@ if wlan:
     # Set time on device successfully before commencing monitoring
     if set_time():
         wlan.active(False)
-        blink_led(led_green, 2, 100)
+        blink_led(led_green, 1, 2000)
         start_polling()
 
 
